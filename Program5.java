@@ -1,6 +1,8 @@
 package accidentpack;
 
 import java.io.File;
+import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -17,12 +19,12 @@ public class Program5 {
     public Program5() {
 
     }
-
+    Dictionary<String, Node> rootReportDict = new Hashtable<>(); 
     public static void main(String[] args) {
         Program5 tree = new Program5();
         String fileName = "accidents_small_sample.csv";
         Report report;
-
+        
         try {
             Scanner sc = new Scanner(new File(fileName));
             sc.nextLine(); 
@@ -49,6 +51,13 @@ public class Program5 {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        Scanner userInput = new Scanner(System.in);
+        System.out.println("Enter state initials:");
+        String enteredState = userInput.nextLine();
+        System.out.println("Enter start date:");
+        String enteredStart = userInput.nextLine();
+        
+        
     }
   
 
@@ -58,9 +67,15 @@ public class Program5 {
      * @param report The accident report to be added.
      */
   public void add(Report report) {
-        root = addHelp(root, report);
+	  if(rootReportDict.get(report.getState()) == null) {
+		  rootReportDict.put(report.getState(), new Node(report));
+	  }
+	  else {
+		  addHelp(rootReportDict.get(report.getState()), report);
+	  }
     }
 
+  
   /**
    * Helper method to add a report to the binary search tree based on start time.
    *
@@ -121,9 +136,16 @@ public class Program5 {
 
         return root;
     }
-
-
-
+/*
+    public void searchForClosestAfter(LocalDate startDate, Node root) {
+    	  if (startDate.compareTo(root.report.getStartTime()) <= 0) {
+              searchForClosestAfter(startDate, root.left);
+          } else {
+              root.rightChildrenCount++;
+              root.right = addHelp(root.right, report);
+          }
+    }
+*/
     private class Node {
         Report report;
         int leftChildrenCount;
