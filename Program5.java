@@ -74,7 +74,7 @@ public class Program5 {
         if (root == null)
             return 0;
 
-        System.out.println("Checking node: " + root.report.getState() + ", " + root.report.getStartTime());
+        //System.out.println("Checking node: " + root.report.getState() + ", " + root.report.getStartTime());
 
         if (startDate.compareTo(root.report.getStartTime()) <= 0) {
             return root.rightChildrenCount + 1 + reportsOnAndAfterDateHelp(root.left, startDate);
@@ -135,42 +135,9 @@ public class Program5 {
         return root;
     }
     
-    /**
-     * Inserts a new report into the binary search tree based on the report's state.
-     *
-     * @param report The accident report to be inserted.
-     */
-    public void insertByState(Report report) {
-        root = addByStateHelp(root, report);
-    }
+   
 
-    /**
-     * Helper method to insert a report into the binary search tree based on its state.
-     *
-     * @param root   The root node of the subtree.
-     * @param report The accident report to be inserted.
-     * @return The root node of the modified subtree.
-     */
-    private Node addByStateHelp(Node root, Report report) {
-        if (root == null) {
-            Node newNode = new Node(report);
-            return newNode;
-        }
-
-        if (report.getState().compareTo(root.report.getState()) < 0) {
-            root.left = addByStateHelp(root.left, report);
-        } else if (report.getState().compareTo(root.report.getState()) > 0) {
-            root.right = addByStateHelp(root.right, report);
-        } else {
-            if (root.report.getState().equals(report.getState())) {
-                root.right = addHelp(root.right, report); 
-            } else {
-                root.left = addByStateHelp(root.left, report);
-            }
-        }
-
-        return root;
-    }
+    
     
    
 /*
